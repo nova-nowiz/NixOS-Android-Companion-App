@@ -8,17 +8,8 @@ import com.android.volley.Request
 import com.android.volley.RequestQueue
 import com.android.volley.toolbox.JsonObjectRequest
 import com.android.volley.toolbox.Volley
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import org.json.JSONObject
-import java.io.BufferedInputStream
-import java.io.ByteArrayOutputStream
-import java.io.IOException
-import java.io.InputStream
-import java.net.MalformedURLException
-import java.net.URL
-import javax.net.ssl.HttpsURLConnection
 
 class PackageSearchViewModel(application: Application) : AndroidViewModel(application) {
 
@@ -33,11 +24,12 @@ class PackageSearchViewModel(application: Application) : AndroidViewModel(applic
                 .getInstance(getApplication<Application>().baseContext)
                 .addToRequestQueue(
                     object : JsonObjectRequest(
-                        Request.Method.GET,
+                        Method.GET,
                         "https://nixos-search-5886075189.us-east-1.bonsaisearch.net/latest-19-20.09/_search",
                         JSONObject(jsonBody),
                         { response: JSONObject ->
                             _text.value = response.toString(2)
+                            Log.i("NixOS Package Search", _text.value ?: "null")
                         },
                         null
                     ) {
