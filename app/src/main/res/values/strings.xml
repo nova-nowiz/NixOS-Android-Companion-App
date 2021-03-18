@@ -1,0 +1,93 @@
+<resources>
+    <string name="app_name">NixOS companion app</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="nav_header_title">NixOS companion app</string>
+    <string name="nav_header_desc">Navigation header</string>
+    <string name="action_settings">Settings</string>
+
+    <string name="menu_package_search">Package search</string>
+    <string name="menu_option_search">Option search</string>
+    <string name="nixos_elastic_search_json_body">{
+	"from": 0,
+	"size": 30,
+	"sort": [
+		{
+			"_score": "desc",
+			"package_attr_name": "desc",
+			"package_pversion": "desc"
+		}
+	],
+	"_source": [
+		"package_attr_name",
+		"package_attr_set",
+		"package_pname",
+		"package_pversion",
+		"package_description",
+		"package_longDescription",
+		"package_license",
+		"package_maintainers",
+		"package_platforms",
+		"package_position",
+		"package_homepage",
+		"package_system"
+	],
+	"query": {
+		"bool": {
+			"filter": [
+				{
+					"term": {
+						"type": {
+							"value": "%1$s",
+							"_name": "filter_packages"
+						}
+					}
+				}
+			],
+			"must": [
+				{
+					"dis_max": {
+						"queries": [
+							{
+								"query_string": {
+									"query": "*%2$s*",
+									"fields": [
+										"package_attr_name",
+										"package_pname^5",
+										"package_attr_set^5",
+										"package_description^3",
+										"package_longDescription"
+									],
+									"tie_breaker": 0.7,
+									"analyze_wildcard": true,
+									"allow_leading_wildcard": true
+								}
+							},
+							{
+								"multi_match": {
+									"_name": "multi_match_%2$s",
+									"analyzer": "whitespace",
+									"auto_generate_synonyms_phrase_query": false,
+									"fields": [
+										"package_attr_name^9",
+										"package_attr_name.edge^9",
+										"package_pname^6",
+										"package_pname.edge^6",
+										"package_description^1.3",
+										"package_description.edge^1.3",
+										"package_longDescription^1",
+										"package_longDescription.edge^1"
+									],
+									"operator": "and",
+									"query": "%2$s",
+									"type": "cross_fields"
+								}
+							}
+						]
+					}
+				}
+			]
+		}
+	}
+}</string>
+</resources>
