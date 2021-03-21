@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+    <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="122dp">
+
+            <TextView
+                android:id="@+id/packageTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:text="packageTitle"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/packageDescription"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="packageDescription"
+                app:layout_constraintEnd_toEndOf="@+id/packageTitle"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="@+id/packageTitle"
+                app:layout_constraintTop_toBottomOf="@+id/packageTitle" />
+
+            <TextView
+                android:id="@+id/packageName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="name: packageName"
+                app:layout_constraintStart_toStartOf="@+id/packageDescription"
+                app:layout_constraintTop_toBottomOf="@+id/packageDescription" />
+
+            <TextView
+                android:id="@+id/packageVersion"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:text="version: packageVersion"
+                app:layout_constraintBottom_toBottomOf="@+id/packageName"
+                app:layout_constraintStart_toEndOf="@+id/packageName"
+                app:layout_constraintTop_toTopOf="@+id/packageName" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.cardview.widget.CardView>

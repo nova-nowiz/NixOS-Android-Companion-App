@@ -8,79 +8,79 @@
 
     <string name="menu_package_search">Package search</string>
     <string name="menu_option_search">Option search</string>
-    <string name="nixos_elastic_search_json_body">{
-	"from": 0,
-	"size": 30,
-	"sort": [
+    <string name="package_search_json_body">{
+	\"from\": 0,
+	\"size\": 30,
+	\"sort\": [
 		{
-			"_score": "desc",
-			"package_attr_name": "desc",
-			"package_pversion": "desc"
+			\"_score\": \"desc\",
+			\"package_attr_name\": \"desc\",
+			\"package_pversion\": \"desc\"
 		}
 	],
-	"_source": [
-		"package_attr_name",
-		"package_attr_set",
-		"package_pname",
-		"package_pversion",
-		"package_description",
-		"package_longDescription",
-		"package_license",
-		"package_maintainers",
-		"package_platforms",
-		"package_position",
-		"package_homepage",
-		"package_system"
+	\"_source\": [
+		\"package_attr_name\",
+		\"package_attr_set\",
+		\"package_pname\",
+		\"package_pversion\",
+		\"package_description\",
+		\"package_longDescription\",
+		\"package_license\",
+		\"package_maintainers\",
+		\"package_platforms\",
+		\"package_position\",
+		\"package_homepage\",
+		\"package_system\"
 	],
-	"query": {
-		"bool": {
-			"filter": [
+	\"query\": {
+		\"bool\": {
+			\"filter\": [
 				{
-					"term": {
-						"type": {
-							"value": "%1$s",
-							"_name": "filter_packages"
+					\"term\": {
+						\"type\": {
+							\"value\": \"package\",
+							\"_name\": \"filter_packages\"
 						}
 					}
 				}
 			],
-			"must": [
+			\"must\": [
 				{
-					"dis_max": {
-						"queries": [
+					\"dis_max\": {
+						\"queries\": [
 							{
-								"query_string": {
-									"query": "*%2$s*",
-									"fields": [
-										"package_attr_name",
-										"package_pname^5",
-										"package_attr_set^5",
-										"package_description^3",
-										"package_longDescription"
+								\"query_string\": {
+									\"query\": \"*%1$s*\",
+									\"fields\": [
+										\"package_attr_name\",
+										\"package_pname^5\",
+										\"package_attr_set^5\",
+										\"package_description^3\",
+										\"package_longDescription\"
 									],
-									"tie_breaker": 0.7,
-									"analyze_wildcard": true,
-									"allow_leading_wildcard": true
+									\"tie_breaker\": 0.7,
+									\"analyze_wildcard\": true,
+									\"allow_leading_wildcard\": true
 								}
 							},
 							{
-								"multi_match": {
-									"_name": "multi_match_%2$s",
-									"analyzer": "whitespace",
-									"auto_generate_synonyms_phrase_query": false,
-									"fields": [
-										"package_attr_name^9",
-										"package_attr_name.edge^9",
-										"package_pname^6",
-										"package_pname.edge^6",
-										"package_description^1.3",
-										"package_description.edge^1.3",
-										"package_longDescription^1",
-										"package_longDescription.edge^1"
+								\"multi_match\": {
+									\"_name\": \"multi_match\",
+									\"analyzer\": \"whitespace\",
+									\"auto_generate_synonyms_phrase_query\": false,
+									\"fields\": [
+										\"package_attr_name^9\",
+										\"package_attr_name.edge^9\",
+										\"package_pname^6\",
+										\"package_pname.edge^6\",
+										\"package_description^1.3\",
+										\"package_description.edge^1.3\",
+										\"package_longDescription^1\",
+										\"package_longDescription.edge^1\"
 									],
-									"operator": "and",
-									"query": "%2$s",
-									"type": "cross_fields"
+									\"operator\": \"and\",
+									\"query\": \"%1$s\",
+									\"type\": \"cross_fields\"
 								}
 							}
 						]
@@ -90,4 +90,78 @@
 		}
 	}
 }</string>
+	<string name="option_search_json_body">{
+	\"from\": 0,
+	\"size\": 30,
+	\"sort\": [
+		{
+			\"_score\": \"desc\",
+			\"option_name\": \"desc\"
+		}
+	],
+	\"_source\": [
+		\"option_name\",
+		\"option_description\",
+		\"option_type\",
+		\"option_default\",
+		\"option_example\",
+		\"option_source\"
+	],
+	\"query\": {
+		\"bool\": {
+			\"filter\": [
+				{
+					\"term\": {
+						\"type\": {
+							\"value\": \"option\",
+							\"_name\": \"filter_options\"
+						}
+					}
+				}
+			],
+			\"must\": [
+				{
+					\"dis_max\": {
+						\"tie_breaker\": 0.7,
+						\"queries\": [
+							{
+								\"query_string\": {
+									\"query\": \"*%1$s*\",
+									\"fields\": [
+										\"option_name^5\",
+										\"option_description^3\"
+									],
+									\"tie_breaker\": 0.7,
+									\"analyze_wildcard\": true,
+									\"allow_leading_wildcard\": true
+								}
+							},
+							{
+								\"multi_match\": {
+									\"type\": \"cross_fields\",
+									\"query\": \"%1$s\",
+									\"analyzer\": \"whitespace\",
+									\"auto_generate_synonyms_phrase_query\": false,
+									\"operator\": \"and\",
+									\"_name\": \"multi_match\",
+									\"fields\": [
+										\"option_name^6\",
+										\"option_name.edge^6\",
+										\"option_name_query^3\",
+										\"option_name_query.edge^3\",
+										\"option_description^1\",
+										\"option_description.edge^1\"
+									]
+								}
+							}
+						]
+					}
+				}
+			]
+		}
+	}
+}</string>
+    <string name="channel_name">NixOS Channel Monitoring</string>
+	<string name="channel_description">Shows the current revisions of NixOS Channels</string>
+    <string name="menu_preferences">Preferences</string>
 </resources>

@@ -6,17 +6,41 @@
     android:layout_height="match_parent"
     tools:context=".ui.option_search.OptionSearchFragment">
 
-    <TextView
-        android:id="@+id/text_option_search"
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/optionRecyclerView"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:textAlignment="center"
-        android:textSize="20sp"
+        android:layout_height="0dp"
+        android:layout_marginTop="32dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/optionSearchField"
+        tools:listitem="@layout/recycler_view_option_search_item" />
+
+    <EditText
+        android:id="@+id/optionSearchField"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="32dp"
+        android:ems="10"
+        android:hint="@string/menu_option_search"
+        android:imeActionLabel="@android:string/search_go"
+        android:imeOptions="actionSearch"
+        android:inputType="text"
+        android:singleLine="true"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/optionSearchButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@android:string/search_go"
+        app:layout_constraintBottom_toBottomOf="@id/optionSearchField"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/optionSearchField"
+        app:layout_constraintTop_toTopOf="@id/optionSearchField" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

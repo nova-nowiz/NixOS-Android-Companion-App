@@ -9,27 +9,29 @@ import com.android.volley.RequestQueue
 import com.android.volley.toolbox.JsonObjectRequest
 import com.android.volley.toolbox.Volley
 import kotlinx.coroutines.launch
+import m.v.nixoscompanionapp.VolleySingleton
+import org.json.JSONArray
 import org.json.JSONObject
 
 class PackageSearchViewModel(application: Application) : AndroidViewModel(application) {
 
-    private val _text = MutableLiveData<String>().apply {
-        value = "This is the package search Fragment"
+    private val _hits = MutableLiveData<JSONArray>().apply {
+        value = JSONArray()
     }
-    val text: LiveData<String> = _text
+    val hits: LiveData<JSONArray> = _hits
 
-    fun makeApiRequest(jsonBody: String) {
+    fun makeApiRequest(jsonBody: JSONObject) {
         viewModelScope.launch {
             VolleySingleton
                 .getInstance(getApplication<Application>().baseContext)
                 .addToRequestQueue(
                     object : JsonObjectRequest(
-                        Method.GET,
+                        Method.POST,
                         "https://nixos-search-5886075189.us-east-1.bonsaisearch.net/latest-19-20.09/_search",
-                        JSONObject(jsonBody),
+                        jsonBody,
                         { response: JSONObject ->
-                            _text.value = response.toString(2)
-                            Log.i("NixOS Package Search", _text.value ?: "null")
+                            _hits.value = response.getJSONObject("hits").getJSONArray("hits")
+                            Log.d("Pkg Search: Response", _hits.value?.toString(2) ?: "null")
                         },
                         null
                     ) {
@@ -42,26 +44,5 @@ class PackageSearchViewModel(application: Application) : AndroidViewModel(applic
                     }
                 )
         }
-    }
-}
-
-class VolleySingleton constructor(context: Context) {
-    companion object {
-        @Volatile
-        private var INSTANCE: VolleySingleton? = null
-        fun getInstance(context: Context) =
-            INSTANCE ?: synchronized(this) {
-                INSTANCE ?: VolleySingleton(context).also {
-                    INSTANCE = it
-                }
-            }
-    }
-    val requestQueue: RequestQueue by lazy {
-        // applicationContext is key, it keeps you from leaking the
-        // Activity or BroadcastReceiver if someone passes one in.
-        Volley.newRequestQueue(context.applicationContext)
-    }
-    fun <T> addToRequestQueue(req: Request<T>) {
-        requestQueue.add(req)
     }
 }
